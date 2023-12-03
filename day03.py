@@ -28,21 +28,27 @@ def find_symbol(num, lines):
 def classify_nums(nums, lines):
     for num in nums:
         find_symbol(num, lines)
+    return nums
+
+def lookups(nums):
+    lookup = {}
+    for num in nums:
+        for coord, symbol in num.symbols.items():
+            if symbol == '*':
+                if coord in lookup:
+                    lookup[coord].append(num)
+                else:
+                    lookup[coord] = [num]
+    return lookup
             
 lines = non_blank_lines("input/day03.txt")
-nums = make_nums(lines)
-classify_nums(nums, lines)
-print(sum([num.num for num in nums if len(num.symbols) > 0]))
+nums = classify_nums(make_nums(lines), lines)
 
-lookup = {}
-for num in nums:
-    for coord, symbol in num.symbols.items():
-        if symbol == '*':
-            if coord in lookup:
-                lookup[coord].append(num)
-            else:
-                lookup[coord] = [num]
+def part1(nums):
+    return sum([num.num for num in nums if len(num.symbols) > 0])
 
-print(sum([numlist[0].num * numlist[1].num for numlist in lookup.values() if len(numlist) == 2]))
+def part2(lookup):
+    return sum([numlist[0].num * numlist[1].num for numlist in lookup.values() if len(numlist) == 2])
         
-    
+print_assert("Part 1:", part1(nums), 498559)
+print_assert("Part 2:", part2(lookups(nums)), 72246648)
