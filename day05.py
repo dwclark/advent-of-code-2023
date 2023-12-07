@@ -17,12 +17,6 @@ class Mapping:
         self.srcs.append(portion.closedopen(src_start, src_start + length))
         self.dests.append(portion.closedopen(dest_start, dest_start + length))
 
-    def mapped_value(self, val):
-        for src_interval, dest_interval in zip(self.srcs, self.dests):
-            if src_interval & portion.singleton(val):
-                return dest_interval.lower + (val - src_interval.lower)
-        return val
-    
     def mapped_values(self, intervals):
         outputs = []
         for interval in intervals:
@@ -53,16 +47,7 @@ def pairwise(iterable):
     a = iter(iterable)
     return zip(a, a)
 
-def part_1(mappings, seeds):
-    def do_mapping(val):
-        n = val
-        for m in mappings:
-            n = m.mapped_value(n)
-        return n
-
-    return min([ do_mapping(seed) for seed in seeds ])
-
-def part_2(mappings, seed_pairs):
+def solve(mappings, intervals):
     def do_mapping(val):
         n = val
         for m in mappings:
@@ -70,19 +55,18 @@ def part_2(mappings, seed_pairs):
         return n
 
     all_intervals = []
-    for seed_pair in seed_pairs:
-        all_intervals.extend(do_mapping(seed_pair))
+    for interval in intervals:
+        all_intervals.extend(do_mapping(interval))
 
-    print(min([interval.lower for interval in all_intervals]))
+    return min([interval.lower for interval in all_intervals])
         
 groups = blank_line_grouped('input/day05.txt')
-seeds = [int(s) for s in re.findall(pnum, groups[0][0])]
 mappings = [make_mapping(group) for group in groups[1:]]
-seed_ranges = [portion.closedopen(v1, v1+length) for v1, length in pairwise(seeds)]
+seeds = [int(s) for s in re.findall(pnum, groups[0][0])]
+seeds_1 = [ portion.singleton(seed) for seed in seeds ]
+seeds_2 = [portion.closedopen(v1, v1+length) for v1, length in pairwise(seeds)]
 
-#find_min(seed_ranges, mappings)
-#print(part_1(mappings, seeds))
-part_2(mappings, seed_ranges)
-#print(find_min(seed_ranges, mappings))
-#printAssert("Part 1:", min([do_mapping(seed, mappings) for seed in seeds]), 240320250)
+print_assert("Part 1:", solve(mappings, seeds_1), 240320250)
+print_assert("Part 2:", solve(mappings, seeds_2),  28580589)
+
 
