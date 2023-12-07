@@ -10,12 +10,19 @@ the_time = int("".join([str(n) for n in times]))
 the_distance = int("".join([str(n) for n in distances]))
 
 def num_ways(time, distance):
-    ways = 0
-    for my_time in range(1, time):
-        total_distance = my_time * (time - my_time)
-        if total_distance > distance:
-            ways = ways + 1
-    return ways
+    def first():
+        for my_time in range(1, time):
+            total_distance = my_time * (time - my_time)
+            if total_distance > distance:
+                return my_time
 
-print(math.prod([num_ways(time, distance) for time, distance in zip(times,distances)]))
-print(num_ways(the_time, the_distance))
+    def last():
+        for my_time in reversed(range(1, time)):
+            total_distance = my_time * (time - my_time)
+            if total_distance > distance:
+                return my_time
+
+    return last() - first() + 1
+
+print_assert("Part 1:", math.prod([num_ways(time, distance) for time, distance in zip(times,distances)]), 741000)
+print_assert("Part 2:", num_ways(the_time, the_distance), 38220708)
