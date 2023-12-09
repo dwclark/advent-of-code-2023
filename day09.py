@@ -21,11 +21,6 @@ def find_first(nums):
     else:
         return nums[0] - find_first(diffs(nums))
 
-lines = non_blank_lines('input/day09.txt')
-num_lines = [ split_and_convert(line) for line in lines ]
-
-def part_1():
-    return sum([find_next(num_line) for num_line in num_lines])
-
-def part_2():
-    return sum([find_first(num_line) for num_line in num_lines])
+num_lines = [ split_and_convert(line) for line in non_blank_lines('input/day09.txt') ]
+print_assert("Part 1:", sum([find_next(num_line) for num_line in num_lines]), 1641934234)
+print_assert("Part 2:", sum([find_first(num_line) for num_line in num_lines]), 975)
