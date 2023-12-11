@@ -1,35 +1,43 @@
 from aoc import non_blank_lines, print_assert
 import heapq
 
-def blank_rows(grid):
+multiplier = None
+blank_rows = None
+blank_cols = None
+
+def find_blank_rows(grid):
     return [ i for i, row in enumerate(grid) if all([s == '.' for s in row]) ]
 
-def blank_cols(grid):
+def find_blank_cols(grid):
     return [ col for col in range(0, len(grid[0])) if all([row[col] == '.' for row in grid]) ]
-
-def expand_grid(grid, rows, cols):
-    lists = [list(row) for row in grid]
-    accum = []
-    for list_row in lists:
-        new_row = []
-        for col, letter in enumerate(list_row):
-            if col in cols:
-                new_row.extend(['.', '.'])
-            else:
-                new_row.append(letter)
-        accum.append(''.join(new_row))
-
-    ret_accum = []
-    for row, contents in enumerate(accum):
-        if row in rows:
-            ret_accum.extend(['.' * len(contents)] * 2)
-        else:
-            ret_accum.append(contents)
-    return ret_accum
 
 def neighbors(coord):
     row, col = coord
-    return [ (row+1, col), (row-1, col), (row, col+1), (row, col-1) ]
+    def up():
+        if row + 1 in blank_rows:
+            return (multiplier + 1, (row + 2, col))
+        else:
+            return (1, (row + 1, col))
+
+    def down():
+        if row - 1 in blank_rows:
+            return (multiplier + 1, (row - 2, col))
+        else:
+            return (1, (row - 1, col))
+        
+    def left():
+        if col -  1 in blank_cols:
+            return (multiplier + 1, (row, col - 2))
+        else:
+            return (1, (row, col - 1))
+        
+    def right():
+        if col + 1 in blank_cols:
+            return (multiplier + 1, (row, col + 2))
+        else:
+            return (1, (row, col + 1))
+
+    return [ up(), down(), left(), right() ]
 
 def in_grid(grid, coord):
     max_row = len(grid)
@@ -75,10 +83,12 @@ def bfs(grid, start_at):
         row, col = node
         
         if grid[row][col] == '#' and node != start_at:
+            #print(f"found # at {node}")
             ret[tuple(sorted([start_at, node]))] = dist
         for neighbor in neighbors(node):
-            if in_grid(grid, neighbor):
-                add_coord(neighbor, dist+1)
+            add_dist, new_coord = neighbor
+            if in_grid(grid, new_coord):
+                add_coord(new_coord, dist + add_dist)
     return ret
 
 def distances(grid):
@@ -90,5 +100,9 @@ def distances(grid):
     return ret
 
 grid = non_blank_lines('input/day11.txt')
-expanded = expand_grid(grid, blank_rows(grid), blank_cols(grid))
-print(sum(distances(expanded).values()))
+blank_rows = set(find_blank_rows(grid))
+blank_cols = set(find_blank_cols(grid))
+multiplier = 1000000
+print(blank_rows)
+print(blank_cols)
+print(sum(distances(grid).values()))
