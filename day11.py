@@ -83,7 +83,6 @@ def bfs(grid, start_at):
         row, col = node
         
         if grid[row][col] == '#' and node != start_at:
-            #print(f"found # at {node}")
             ret[tuple(sorted([start_at, node]))] = dist
         for neighbor in neighbors(node):
             add_dist, new_coord = neighbor
@@ -102,7 +101,9 @@ def distances(grid):
 grid = non_blank_lines('input/day11.txt')
 blank_rows = set(find_blank_rows(grid))
 blank_cols = set(find_blank_cols(grid))
+
+multiplier = 2
+print_assert("Part 1:", sum(distances(grid).values()), 9684228)
 multiplier = 1000000
-print(blank_rows)
-print(blank_cols)
-print(sum(distances(grid).values()))
+print_assert("Part 2:", sum(distances(grid).values()), 483844716556)
+
