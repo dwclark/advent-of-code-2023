@@ -1,4 +1,5 @@
 from aoc import non_blank_lines, print_assert
+import functools
 
 def keep_going(contents, groups, at):
     leftover = len(contents) - at
@@ -62,7 +63,7 @@ def validate_arrangements(r, made):
         index = m.find('#', index)
         assert index < 0, f"2. bad generation {m} for {r}"
     
-     
+@functools.cache     
 def arrangements(contents, groups):
     total = 0
     for at in range(0, len(contents)):
@@ -80,10 +81,13 @@ class Record:
     def __init__(self, s):
         tmp = s.split(' ')
         self.contents = tmp[0]
-        self.groups = [ int(sub) for sub in tmp[1].split(',') ]
+        self.unfolded_contents = '?'.join([self.contents] * 5)
+        self.groups = tuple([ int(sub) for sub in tmp[1].split(',') ])
+        self.unfolded_groups = self.groups * 5
 
     def __repr__(self):
         return f"{self.contents} {','.join([str(i) for i in self.groups])}"
+
 
 def check_all(lines):
     for r in [Record(line) for line in lines]:
@@ -92,5 +96,8 @@ def check_all(lines):
 
 def part_1(lines):
     return sum([arrangements(r.contents, r.groups) for r in [ Record(line) for line in lines ]])
-    
+
+def part_2(lines):
+    return sum([arrangements(r.unfolded_contents, r.unfolded_groups) for r in [ Record(line) for line in lines ]])
+
 lines = non_blank_lines('input/day12.txt')
