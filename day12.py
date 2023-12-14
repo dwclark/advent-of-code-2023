@@ -101,3 +101,6 @@ def part_2(lines):
     return sum([arrangements(r.unfolded_contents, r.unfolded_groups) for r in [ Record(line) for line in lines ]])
 
 lines = non_blank_lines('input/day12.txt')
+
+print_assert("Part 1:", part_1(lines), 8193)
+print_assert("Part 2:", part_2(lines), 45322533163795)
