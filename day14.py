@@ -5,14 +5,14 @@ def tilt_north(grid):
     for row in range(1, len(grid)):
         for col in range(0, len(grid[0])):
             if grid[row][col] == 'O':
-                final_row = row
+                final = row
                 for rev in range(row-1, -1, -1):
                     if grid[rev][col] == '.':
-                        final_row = rev
+                        final = rev
                     else:
                         break
                 grid[row][col] = '.'
-                grid[final_row][col] = 'O'
+                grid[final][col] = 'O'
     return grid
 
 def tilt_south(grid):
@@ -85,9 +85,11 @@ def repeat_info(grid):
 def part_2(grid):
     original = copy.deepcopy(grid)
     info = repeat_info(grid)
-    cycle_length = info[1] - info[0]
-    times = (1000000000 - info[0]) // cycle_length
-    offset = 1000000000 - (info[0] + (times * cycle_length))
+    cycle_start = info[0]
+    cycle_repeat = info[1]
+    cycle_length = cycle_repeat - cycle_start
+    times = (1000000000 - cycle_start) // cycle_length
+    offset = 1000000000 - (cycle_start + (times * cycle_length))
 
     for i in range(0, info[0] + offset):
         cycle(original)
