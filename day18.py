@@ -77,11 +77,6 @@ def bottom_horizontal(borders):
             min_b = b
     return (min_index, min_b)
 
-def re_sort(borders):
-    #main idea is to start at the lowest line
-    min_index, min_b = bottom_horizontal(borders)
-    return borders[min_index:] + borders[0:min_index]
-
 def to_lines(borders):
     ret = []
     start = (0,0)
@@ -114,5 +109,5 @@ p = re.compile(r'([RDLU]) (\d+) \((#[0-9a-f]{6})\)')
 lines = non_blank_lines('input/day18.txt')
 instructions = [ re.findall(p, line)[0] for line in lines ]
 
-print_assert("Part 1:", area_under(to_lines(re_sort(make_borders(instructions, Border)))), 74074)
-print_assert("Part 2:", area_under(to_lines(re_sort(make_borders(instructions, Border2)))), 112074045986829)
+print_assert("Part 1:", area_under(to_lines(make_borders(instructions, Border))), 74074)
+print_assert("Part 2:", area_under(to_lines(make_borders(instructions, Border2))), 112074045986829)
