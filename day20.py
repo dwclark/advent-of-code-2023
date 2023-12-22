@@ -1,8 +1,8 @@
 from aoc import non_blank_lines, print_assert
-import re
-from enum import Enum
 from collections import deque
+from enum import Enum
 import math
+import re
 
 class Magnitude(Enum):
     LOW = 0
