@@ -179,6 +179,10 @@ def part_2(modules):
     #you see repeats for each of the inputs (at least one repeat)
     #to see how often each module flips to high
 
+    #Somewhat proud of myself that I figure this day out without
+    #looking at hints. This is much less than it could have been
+    #had I not taken so long.
+    
     # bus = Bus()
     # ls = modules['ls']
     # ls.debug = True
