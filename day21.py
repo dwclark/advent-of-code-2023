@@ -23,7 +23,6 @@ def is_legal_2(graph, at):
 def total_reached(graph, start, num, is_legal):
     q = deque()
     q.append((start, 0))
-    reached = set()
     cache = {}
     
     def add_queue(pos, steps):
@@ -38,22 +37,23 @@ def total_reached(graph, start, num, is_legal):
     
     while q:
         pos, steps = q.popleft()
-        if steps == num:
-            reached.add(pos)
+        if steps > num:
+            break
         else:
             row, col = pos
             for next_pos in [(row+1, col), (row-1, col), (row, col+1), (row, col-1)]:
-                if is_legal(graph, next_pos) and not next_pos in reached:
+                if is_legal(graph, next_pos):
                     add_queue(next_pos, steps+1)
 
-    return len(reached)
+    return { n:len(c) for n, c in cache.items() }
 
 def part_2(graph, start, num):
     remainder = num % len(graph)
+    days_map = total_reached(graph, start, remainder + (2 * len(graph)), is_legal_2)
 
-    v1 = total_reached(graph, start, remainder, is_legal_2)
-    v2 = total_reached(graph, start, remainder + len(graph), is_legal_2)
-    v3 = total_reached(graph, start, remainder + (2 * len(graph)), is_legal_2)
+    v1 = days_map[remainder]
+    v2 = days_map[remainder + len(graph)]
+    v3 = days_map[remainder + (2 * len(graph))]
 
     a = (v1 - 2*v2 + v3) / 2
     b = (-3*v1 + 4*v2 - v3) / 2
@@ -63,5 +63,5 @@ def part_2(graph, start, num):
     
 graph = non_blank_lines('input/day21.txt')
 start = find_start(graph)
-print_assert("Part 1:", total_reached(graph, start, 64, is_legal_1), 3600)
+print_assert("Part 1:", total_reached(graph, start, 64, is_legal_1)[64], 3600)
 print_assert("Part 2:", part_2(graph, start, 26501365), 599763113936220)
