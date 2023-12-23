@@ -17,3 +17,11 @@ AOC has taught me about dynamic programming, path finding, and a few other progr
 The one nice thing about AOC is that it does teach how to apply algorithmic thinking. But, there seems to be a limit to the types of algorithms that are taught. This is probably because the days have to be solved in a reasonable amount of time, the explanations can't be too long, the author has a limited knowledge base, and AOC is really about getting fast answers, the programming stuff is clearly secondary.
 
 So, now that I'm pretty sure I'm done with AOC, what next? One possibility would be to learn how he constructs the puzzles, then apply that knowledge to crafting my own problems. That would probably give deep insights into algorithms. Before doing that, it would probably be best to simply study certain algorithms and seek out problems involving those algorithms to practice and get insights. Solving puzzles really is a great way to learn and practice the craft of software, but I don't think AOC is worth it for that anymore.
+
+# What AOC May Still Be Useful For
+
+After typing the above I realized that there may be one area where AOC may be useful: practicing new programming languages. However, even here I think the usefulness is probably limited.
+
+It's useful for getting the syntax of the language in your hands and head, for developing muscle memory of a language. But, you really can only explore the core syntax, some of the standard libraries, and maybe a few 3rd party libraries. While this is good, what people usually pay you for is for more extended knowledge of the ecosystem of a language. No AOC will ever involve using a REST client, but in 20203, that's generally what people get paid for. It's stupid, but that's life. So knowing how to solve problems in a language, but now knowing how to use a REST client, is probably a deteriment to getting paid for using that language. This is backwards and stupid, but it's the way things work.
+
+So once you have explored what AOC can give you, it's time to move on. Again, the reward/time ratio runs out pretty quickly for learning what you can about a new language from AOC.
